@@ -1,7 +1,46 @@
 import React from "react";
 import ListaMusicasArtistas from "../componentes/ListaMusicasArtistas";
+import { getArtistTop, getRelatedArtists } from "../api/spotify";
 
-function PaginaArtista({ artista, selecionarArtista }) {
+const MAX_TOP = 10;
+const MAX_RELACIONADOS = 10;
+
+function PaginaArtista({ token, artista, selecionarArtista }) {
+  const [topMusicas, setTopMusicas] = React.useState([]);
+  const [relacionados, setRelacionados] = React.useState([]);
+  const [status, setStatus] = React.useState("");
+
+  React.useEffect(
+    function () {
+      if (token && artista) {
+        async function carregarDadosDoArtista() {
+          const reqTop = getArtistTop(token, artista.id);
+          const reqRelacionados = getRelatedArtists(token, artista.id);
+          try {
+            const res = await Promise.all([reqTop, reqRelacionados]);
+            const [resTop, resRelacionados] = res;
+            if (resTop && resTop.tracks) {
+              setTopMusicas(resTop.tracks.slice(0, MAX_TOP));
+            }
+            if (resRelacionados && resRelacionados.artists) {
+              setRelacionados(
+                resRelacionados.artists.slice(0, MAX_RELACIONADOS)
+              );
+            }
+            setStatus("");
+          } catch (erro) {
+            console.error("falha na requisicao de dados do artista", erro);
+          }
+        }
+        setStatus("carregando...");
+        setRelacionados([]);
+        setTopMusicas([]);
+        carregarDadosDoArtista();
+      }
+    },
+    [artista]
+  );
+
   function imprimirGeneros() {
     if (artista.genres.length) {
       const generos = artista.genres.join(", ");
@@ -35,9 +74,10 @@ function PaginaArtista({ artista, selecionarArtista }) {
           </div>
         </div>
       </header>
+      {status}
       <ListaMusicasArtistas
-        musicas={[]}
-        artistas={[]}
+        musicas={topMusicas}
+        artistas={relacionados}
         selecionarArtista={selecionarArtista}
       />
     </>

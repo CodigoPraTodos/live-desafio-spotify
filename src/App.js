@@ -81,7 +81,13 @@ function App() {
           />
         );
       case PAGINA_ARTISTA:
-        return <PaginaArtista artista={artista} />;
+        return (
+          <PaginaArtista
+            artista={artista}
+            token={token}
+            selecionarArtista={selecionarArtista}
+          />
+        );
       default:
         return (
           <PaginaInicial
