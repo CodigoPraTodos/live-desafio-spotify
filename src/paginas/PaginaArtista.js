@@ -15,12 +15,14 @@ function PaginaArtista({ artista, selecionarArtista }) {
     return "";
   }
 
+  const imagem = artista.images.length ? artista.images[0].url : "";
+
   return (
     <>
       <header className="media">
         <figure className="media-left">
           <p className="image is-square is-128x128">
-            <img src={artista.images[0].url} />
+            <img src={imagem} />
           </p>
         </figure>
         <div className="media-content">
