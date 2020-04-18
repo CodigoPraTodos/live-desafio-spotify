@@ -4,11 +4,12 @@ import { getMe, getSearch } from "./api/spotify";
 
 import Menu from "./Menu";
 import PaginaInicial from "./paginas/PaginaInicial";
-import PaginaAutenticado from "./paginas/PaginaAutenticado";
 import PaginaPesquisa from "./paginas/PaginaPesquisa";
 import PaginaArtista from "./paginas/PaginaArtista";
 
 const SESSION_TOKEN = "token";
+const PAGINA_PESQUISA = "pesquisa";
+const PAGINA_ARTISTA = "artista";
 
 function App() {
   const tokenState = React.useState("");
@@ -16,7 +17,7 @@ function App() {
   const [profile, setProfile] = React.useState(null);
   const [erroLogin, setErroLogin] = React.useState("");
   const [pagina, setPagina] = React.useState("");
-  const [pesquisa, setPesquisa] = React.useState(null);
+  const [termoPesquisado, setTermoPesquisado] = React.useState("");
   const [artista, setArtista] = React.useState(null);
 
   React.useEffect(function () {
@@ -27,7 +28,7 @@ function App() {
         if (profile && profile.id) {
           setToken(sessionToken);
           setProfile(profile);
-          setPagina("autenticado");
+          setPagina(PAGINA_PESQUISA);
         } else {
           console.error("erro de autenticacao da sessao", profile);
           sessionStorage.removeItem(SESSION_TOKEN);
@@ -43,7 +44,7 @@ function App() {
     if (profile && profile.id) {
       console.info("usuario autenticado", profile);
       setProfile(profile);
-      setPagina("autenticado");
+      setPagina(PAGINA_PESQUISA);
       sessionStorage.setItem(SESSION_TOKEN, token);
     } else {
       console.error("erro de autenticacao", profile);
@@ -59,33 +60,27 @@ function App() {
     setPagina("");
   }
 
-  async function pesquisar(termoDaPesquisa) {
-    const resultados = await getSearch(token, termoDaPesquisa);
-    if (resultados && (resultados.artists || resultados.tracks)) {
-      setPesquisa({ termo: termoDaPesquisa, resultados });
-      setPagina("pesquisa");
-    } else {
-      console.error("falha na pesquisa >>>", resultados);
-    }
-  }
-
   function selecionarArtista(artista) {
     setArtista(artista);
-    setPagina("artista");
+    setPagina(PAGINA_ARTISTA);
+  }
+
+  function pesquisar(termo) {
+    setTermoPesquisado(termo);
+    setPagina(PAGINA_PESQUISA);
   }
 
   function exibirPagina() {
     switch (pagina) {
-      case "autenticado":
-        return <PaginaAutenticado />;
-      case "pesquisa":
+      case PAGINA_PESQUISA:
         return (
           <PaginaPesquisa
-            pesquisa={pesquisa}
+            token={token}
+            termoPesquisado={termoPesquisado}
             selecionarArtista={selecionarArtista}
           />
         );
-      case "artista":
+      case PAGINA_ARTISTA:
         return <PaginaArtista artista={artista} />;
       default:
         return (
