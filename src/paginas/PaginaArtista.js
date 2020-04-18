@@ -1,28 +1,43 @@
 import React from "react";
+import ListaMusicasArtistas from "../componentes/ListaMusicasArtistas";
 
-function PaginaArtista() {
+function PaginaArtista({ artista, selecionarArtista }) {
+  function imprimirGeneros() {
+    if (artista.genres.length) {
+      const generos = artista.genres.join(", ");
+      return (
+        <>
+          <a href="#">{generos}</a>
+          <br />
+        </>
+      );
+    }
+    return "";
+  }
+
   return (
     <>
       <header className="media">
-        <figure class="media-left">
-          <p class="image is-64x64">
-            <img src="https://bulma.io/images/placeholders/128x128.png" />
+        <figure className="media-left">
+          <p className="image is-square is-128x128">
+            <img src={artista.images[0].url} />
           </p>
         </figure>
-        <div class="media-content">
-          <div class="content">
+        <div className="media-content">
+          <div className="content">
+            <h2 className="is-title artista-title">{artista.name}</h2>
             <p>
-              <strong>John Smith</strong> <small>@johnsmith</small>{" "}
-              <small>31m</small>
-              <br />
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin
-              ornare magna eros, eu pellentesque tortor vestibulum ut. Maecenas
-              non massa sem. Etiam finibus odio quis feugiat facilisis.
+              {imprimirGeneros()}
+              {artista.followers.total} seguidores
             </p>
           </div>
         </div>
       </header>
-      <p>teste</p>
+      <ListaMusicasArtistas
+        musicas={[]}
+        artistas={[]}
+        selecionarArtista={selecionarArtista}
+      />
     </>
   );
 }

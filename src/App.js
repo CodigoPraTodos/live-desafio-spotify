@@ -6,6 +6,7 @@ import Menu from "./Menu";
 import PaginaInicial from "./paginas/PaginaInicial";
 import PaginaAutenticado from "./paginas/PaginaAutenticado";
 import PaginaPesquisa from "./paginas/PaginaPesquisa";
+import PaginaArtista from "./paginas/PaginaArtista";
 
 const SESSION_TOKEN = "token";
 
@@ -16,6 +17,7 @@ function App() {
   const [erroLogin, setErroLogin] = React.useState("");
   const [pagina, setPagina] = React.useState("");
   const [pesquisa, setPesquisa] = React.useState(null);
+  const [artista, setArtista] = React.useState(null);
 
   React.useEffect(function () {
     async function verificarSessao() {
@@ -67,12 +69,24 @@ function App() {
     }
   }
 
+  function selecionarArtista(artista) {
+    setArtista(artista);
+    setPagina("artista");
+  }
+
   function exibirPagina() {
     switch (pagina) {
       case "autenticado":
         return <PaginaAutenticado />;
       case "pesquisa":
-        return <PaginaPesquisa pesquisa={pesquisa} />;
+        return (
+          <PaginaPesquisa
+            pesquisa={pesquisa}
+            selecionarArtista={selecionarArtista}
+          />
+        );
+      case "artista":
+        return <PaginaArtista artista={artista} />;
       default:
         return (
           <PaginaInicial
