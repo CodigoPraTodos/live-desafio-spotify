@@ -1,26 +1,29 @@
 import React from "react";
 
-import logo from "./logo-spotify.png";
-import { getMe } from "./api/spotify";
+import { getMe, getSearch } from "./api/spotify";
 
 import Menu from "./Menu";
 import PaginaInicial from "./paginas/PaginaInicial";
 import PaginaAutenticado from "./paginas/PaginaAutenticado";
+import PaginaPesquisa from "./paginas/PaginaPesquisa";
 
 const SESSION_TOKEN = "token";
 
 function App() {
   const tokenState = React.useState("");
+  const [token, setToken] = tokenState;
   const [profile, setProfile] = React.useState(null);
   const [erroLogin, setErroLogin] = React.useState("");
   const [pagina, setPagina] = React.useState("");
+  const [pesquisa, setPesquisa] = React.useState(null);
 
   React.useEffect(function () {
     async function verificarSessao() {
-      const token = sessionStorage.getItem(SESSION_TOKEN);
-      if (token) {
-        const profile = await getMe(token);
+      const sessionToken = sessionStorage.getItem(SESSION_TOKEN);
+      if (sessionToken) {
+        const profile = await getMe(sessionToken);
         if (profile && profile.id) {
+          setToken(sessionToken);
           setProfile(profile);
           setPagina("autenticado");
         } else {
@@ -34,12 +37,12 @@ function App() {
 
   async function fazerLogin(event) {
     event.preventDefault();
-    const profile = await getMe(tokenState[0]);
+    const profile = await getMe(token);
     if (profile && profile.id) {
       console.info("usuario autenticado", profile);
       setProfile(profile);
       setPagina("autenticado");
-      sessionStorage.setItem(SESSION_TOKEN, tokenState[0]);
+      sessionStorage.setItem(SESSION_TOKEN, token);
     } else {
       console.error("erro de autenticacao", profile);
       setErroLogin(
@@ -54,10 +57,22 @@ function App() {
     setPagina("");
   }
 
+  async function pesquisar(termoDaPesquisa) {
+    const resultados = await getSearch(token, termoDaPesquisa);
+    if (resultados && (resultados.artists || resultados.tracks)) {
+      setPesquisa({ termo: termoDaPesquisa, resultados });
+      setPagina("pesquisa");
+    } else {
+      console.error("falha na pesquisa >>>", resultados);
+    }
+  }
+
   function exibirPagina() {
     switch (pagina) {
       case "autenticado":
         return <PaginaAutenticado />;
+      case "pesquisa":
+        return <PaginaPesquisa pesquisa={pesquisa} />;
       default:
         return (
           <PaginaInicial
@@ -71,17 +86,7 @@ function App() {
 
   return (
     <div className="container">
-      <nav className="level topo">
-        <div className="level-left">
-          <div className="level-item">
-            <img src={logo} alt="Spotify Explorer" className="logotipo" />
-          </div>
-          <div className="level-item">
-            <p className="logotipo-texto">Explorer</p>
-          </div>
-        </div>
-        <Menu profile={profile} fazerLogout={fazerLogout} />
-      </nav>
+      <Menu profile={profile} fazerLogout={fazerLogout} pesquisar={pesquisar} />
       {exibirPagina()}
     </div>
   );
