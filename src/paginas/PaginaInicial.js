@@ -13,6 +13,32 @@ function PaginaInicial({ tokenState, erroLogin, fazerLogin }) {
       <p>
         Para iniciar, faça o login inserindo seu Token de Acesso Spotify abaixo:
       </p>
+      <ol>
+        <li>
+          Acesse o site{" "}
+          <a
+            href="https://developer.spotify.com/console/get-search-item/"
+            target="_blank"
+          >
+            https://developer.spotify.com/console/get-search-item/
+          </a>
+        </li>
+        <li>
+          Va até o final da página e aperte <strong>Get Token</strong>
+        </li>
+        <li>
+          Não precisa selecionar nada, apenas confirme apertando{" "}
+          <strong>Request Token</strong>, você será redirecionado ao console
+          novamente
+        </li>
+        <li>
+          Vá até o final da página de novo e copie o Token de Acesso que foi
+          gerado do lado do botão Get Token!
+        </li>
+        <li>
+          Copie e cole seu token abaixo e aperte Login para entrar no Explorer
+        </li>
+      </ol>
       <form
         className="login"
         onSubmit={fazerLogin}
