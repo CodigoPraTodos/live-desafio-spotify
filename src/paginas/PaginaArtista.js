@@ -75,32 +75,33 @@ function PaginaArtista({
     artista.images && artista.images.length ? artista.images[0].url : "";
 
   return (
-    <>
-      <header className="media">
-        <figure className="media-left">
-          <p className="image is-square is-128x128">
-            <img alt={`Foto de ${artista.name}`} src={imagem} />
-          </p>
-        </figure>
-        <div className="media-content">
-          <div className="content">
-            <h2 className="is-title artista-title">{artista.name}</h2>
-            <p>
-              {imprimirGeneros()}
-              {artista.followers
-                ? `${artista.followers.total} seguidores`
-                : `Nenhum seguidor`}
+    status || (
+      <>
+        <header className="media">
+          <figure className="media-left">
+            <p className="image is-square is-128x128">
+              {imagem && <img alt={`Foto de ${artista.name}`} src={imagem} />}
             </p>
+          </figure>
+          <div className="media-content">
+            <div className="content">
+              <h2 className="is-title artista-title">{artista.name}</h2>
+              <p>
+                {imprimirGeneros()}
+                {artista.followers
+                  ? `${artista.followers.total} seguidores`
+                  : `Nenhum seguidor`}
+              </p>
+            </div>
           </div>
-        </div>
-      </header>
-      {status}
-      <ListaMusicasArtistas
-        musicas={topMusicas}
-        artistas={relacionados}
-        selecionarArtista={selecionarArtista}
-      />
-    </>
+        </header>
+        <ListaMusicasArtistas
+          musicas={topMusicas}
+          artistas={relacionados}
+          selecionarArtista={selecionarArtista}
+        />
+      </>
+    )
   );
 }
 

@@ -37,6 +37,6 @@ export async function getRelatedArtists(token, idArtista) {
 }
 
 export async function getRecommendationsByGenres(token, generos) {
-  const url = `/recommendations?seed_genres=${generos}&min_energy=0.4&min_popularity=50`;
+  const url = `/recommendations?seed_genres=${generos}&min_popularity=20&limit=100`;
   return requestSpotify(token, url);
 }

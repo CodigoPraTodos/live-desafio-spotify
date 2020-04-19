@@ -30,17 +30,17 @@ function PaginaGeneros({ generos, token, selecionarArtista }) {
       console.error("falha ao carregar generos >>>", resultados);
       setStatus("falha ao carregar generos");
     }
-    console.info("todo: carregar generos...");
   }
 
   return (
     <>
       <h2 className="title is-size-4">explorando {generos}</h2>
-      {status}
-      <ListaMusicasArtistas
-        musicas={musicas}
-        selecionarArtista={selecionarArtista}
-      />
+      {status || (
+        <ListaMusicasArtistas
+          musicas={musicas}
+          selecionarArtista={selecionarArtista}
+        />
+      )}
     </>
   );
 }

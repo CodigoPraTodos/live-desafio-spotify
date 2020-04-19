@@ -4,6 +4,12 @@ import Tabela from "./Tabela";
 
 function ListaMusicasArtistas({ musicas = [], artistas, selecionarArtista }) {
   function imprimirMusicas() {
+    if (musicas.length < 1) {
+      return (
+        <p>Infelizmente não encontramos músicas para os gêneros explorados.</p>
+      );
+    }
+
     const linhas = musicas.map((item, index) => (
       <tr key={index}>
         <td>
@@ -14,14 +20,15 @@ function ListaMusicasArtistas({ musicas = [], artistas, selecionarArtista }) {
           >
             {item.name}
           </a>
-        </td>
-        <td>
-          <a
-            href={`#${item.id}`}
-            onClick={() => selecionarArtista(item.artists[0])}
-          >
-            {item.artists[0].name}
-          </a>
+          <small>
+            {` por `}
+            <a
+              href={`#${item.id}`}
+              onClick={() => selecionarArtista(item.artists[0])}
+            >
+              {item.artists[0].name}
+            </a>
+          </small>
         </td>
       </tr>
     ));
