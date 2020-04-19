@@ -1,8 +1,8 @@
 import React from "react";
 
-import { getMe, getSearch } from "./api/spotify";
+import { getMe } from "./api/spotify";
 
-import Menu from "./Menu";
+import Menu from "./componentes/Menu";
 import PaginaInicial from "./paginas/PaginaInicial";
 import PaginaPesquisa from "./paginas/PaginaPesquisa";
 import PaginaArtista from "./paginas/PaginaArtista";
@@ -12,8 +12,7 @@ const PAGINA_PESQUISA = "pesquisa";
 const PAGINA_ARTISTA = "artista";
 
 function App() {
-  const tokenState = React.useState("");
-  const [token, setToken] = tokenState;
+  const [token, setToken] = React.useState("");
   const [profile, setProfile] = React.useState(null);
   const [erroLogin, setErroLogin] = React.useState("");
   const [pagina, setPagina] = React.useState("");
@@ -21,28 +20,28 @@ function App() {
   const [artista, setArtista] = React.useState(null);
 
   React.useEffect(function () {
-    async function verificarSessao() {
-      const sessionToken = sessionStorage.getItem(SESSION_TOKEN);
-      if (sessionToken) {
-        const profile = await getMe(sessionToken);
-        if (profile && profile.id) {
-          setToken(sessionToken);
-          setProfile(profile);
-          setPagina(PAGINA_PESQUISA);
-        } else {
-          console.error("erro de autenticacao da sessao", profile);
-          sessionStorage.removeItem(SESSION_TOKEN);
-        }
-      }
-    }
     verificarSessao();
   }, []);
+
+  async function verificarSessao() {
+    const sessionToken = sessionStorage.getItem(SESSION_TOKEN);
+    if (sessionToken) {
+      const profile = await getMe(sessionToken);
+      if (profile && profile.id) {
+        setToken(sessionToken);
+        setProfile(profile);
+        setPagina(PAGINA_PESQUISA);
+      } else {
+        console.error("erro de autenticacao da sessao", profile);
+        sessionStorage.removeItem(SESSION_TOKEN);
+      }
+    }
+  }
 
   async function fazerLogin(event) {
     event.preventDefault();
     const profile = await getMe(token);
     if (profile && profile.id) {
-      console.info("usuario autenticado", profile);
       setProfile(profile);
       setPagina(PAGINA_PESQUISA);
       sessionStorage.setItem(SESSION_TOKEN, token);
@@ -91,7 +90,7 @@ function App() {
       default:
         return (
           <PaginaInicial
-            tokenState={tokenState}
+            tokenState={[token, setToken]}
             erroLogin={erroLogin}
             fazerLogin={fazerLogin}
           />

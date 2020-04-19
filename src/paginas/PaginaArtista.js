@@ -38,7 +38,7 @@ function PaginaArtista({ token, artista, selecionarArtista }) {
         carregarDadosDoArtista();
       }
     },
-    [artista]
+    [artista, token]
   );
 
   function imprimirGeneros() {
@@ -46,7 +46,7 @@ function PaginaArtista({ token, artista, selecionarArtista }) {
       const generos = artista.genres.join(", ");
       return (
         <>
-          <a href="#">{generos}</a>
+          <a href={`#${generos}`}>{generos}</a>
           <br />
         </>
       );
@@ -61,7 +61,7 @@ function PaginaArtista({ token, artista, selecionarArtista }) {
       <header className="media">
         <figure className="media-left">
           <p className="image is-square is-128x128">
-            <img src={imagem} />
+            <img alt={`Foto de ${artista.name}`} src={imagem} />
           </p>
         </figure>
         <div className="media-content">

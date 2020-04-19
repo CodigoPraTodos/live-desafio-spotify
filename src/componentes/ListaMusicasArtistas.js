@@ -7,7 +7,11 @@ function ListaMusicasArtistas({ musicas, artistas, selecionarArtista }) {
     const linhas = musicas.map((item, index) => (
       <tr key={index}>
         <td>
-          <a href={item.external_urls.spotify} target="_blank">
+          <a
+            href={item.external_urls.spotify}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             {item.name}
           </a>
         </td>
@@ -21,7 +25,7 @@ function ListaMusicasArtistas({ musicas, artistas, selecionarArtista }) {
     const linhas = artistas.map((item, index) => (
       <tr key={index}>
         <td>
-          <a href="#" onClick={() => selecionarArtista(item)}>
+          <a href={`#${item.id}`} onClick={() => selecionarArtista(item)}>
             {item.name}
           </a>
         </td>

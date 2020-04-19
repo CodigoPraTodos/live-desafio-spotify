@@ -6,7 +6,6 @@ import ListaMusicasArtistas from "../componentes/ListaMusicasArtistas";
 function PaginaPesquisa({ termoPesquisado, token, selecionarArtista }) {
   const [pesquisa, setPesquisa] = React.useState(null);
   const [status, setStatus] = React.useState("");
-  console.info(pesquisa);
 
   React.useEffect(
     function () {

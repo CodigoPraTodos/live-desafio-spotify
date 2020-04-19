@@ -50,7 +50,7 @@ function Menu({ profile, fazerLogout, pesquisar }) {
             </form>
           </div>
           <p className="level-item">
-            <a href="#" onClick={fazerLogout}>
+            <a href="#logout" onClick={fazerLogout}>
               Sair
             </a>
           </p>

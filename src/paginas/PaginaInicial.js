@@ -19,6 +19,7 @@ function PaginaInicial({ tokenState, erroLogin, fazerLogin }) {
           <a
             href="https://developer.spotify.com/console/get-search-item/"
             target="_blank"
+            rel="noopener noreferrer"
           >
             https://developer.spotify.com/console/get-search-item/
           </a>
@@ -39,16 +40,13 @@ function PaginaInicial({ tokenState, erroLogin, fazerLogin }) {
           Copie e cole seu token abaixo e aperte Login para entrar no Explorer
         </li>
       </ol>
-      <form
-        className="login"
-        onSubmit={fazerLogin}
-        onChange={atualizarToken}
-        value={token}
-      >
+      <form className="login" onSubmit={fazerLogin}>
         <input
           className="input"
           type="text"
           placeholder="Token de Acesso Spotify"
+          onChange={atualizarToken}
+          value={token}
           required
         />
         {erroLogin && <p className="has-text-danger">{erroLogin}</p>}
