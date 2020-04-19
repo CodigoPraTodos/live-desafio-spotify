@@ -2,7 +2,7 @@ import React from "react";
 
 import Tabela from "./Tabela";
 
-function ListaMusicasArtistas({ musicas, artistas, selecionarArtista }) {
+function ListaMusicasArtistas({ musicas = [], artistas, selecionarArtista }) {
   function imprimirMusicas() {
     const linhas = musicas.map((item, index) => (
       <tr key={index}>
@@ -13,6 +13,14 @@ function ListaMusicasArtistas({ musicas, artistas, selecionarArtista }) {
             rel="noopener noreferrer"
           >
             {item.name}
+          </a>
+        </td>
+        <td>
+          <a
+            href={`#${item.id}`}
+            onClick={() => selecionarArtista(item.artists[0])}
+          >
+            {item.artists[0].name}
           </a>
         </td>
       </tr>
@@ -41,10 +49,12 @@ function ListaMusicasArtistas({ musicas, artistas, selecionarArtista }) {
         <h3 className="subtitle">Músicas</h3>
         {imprimirMusicas()}
       </div>
-      <div className="column">
-        <h3 className="subtitle">Artistas</h3>
-        {imprimirArtistas()}
-      </div>
+      {artistas && (
+        <div className="column">
+          <h3 className="subtitle">Artistas</h3>
+          {imprimirArtistas()}
+        </div>
+      )}
     </div>
   );
 }

@@ -6,10 +6,12 @@ import Menu from "./componentes/Menu";
 import PaginaInicial from "./paginas/PaginaInicial";
 import PaginaPesquisa from "./paginas/PaginaPesquisa";
 import PaginaArtista from "./paginas/PaginaArtista";
+import PaginaGeneros from "./paginas/PaginaGeneros";
 
 const SESSION_TOKEN = "token";
 const PAGINA_PESQUISA = "pesquisa";
 const PAGINA_ARTISTA = "artista";
+const PAGINA_GENEROS = "generos";
 
 function App() {
   const [token, setToken] = React.useState("");
@@ -18,6 +20,7 @@ function App() {
   const [pagina, setPagina] = React.useState("");
   const [termoPesquisado, setTermoPesquisado] = React.useState("");
   const [artista, setArtista] = React.useState(null);
+  const [generos, setGeneros] = React.useState("");
 
   React.useEffect(function () {
     verificarSessao();
@@ -69,6 +72,11 @@ function App() {
     setPagina(PAGINA_PESQUISA);
   }
 
+  function selecionarGeneros(generos) {
+    setGeneros(generos);
+    setPagina(PAGINA_GENEROS);
+  }
+
   function exibirPagina() {
     switch (pagina) {
       case PAGINA_PESQUISA:
@@ -82,17 +90,21 @@ function App() {
       case PAGINA_ARTISTA:
         return (
           <PaginaArtista
-            artista={artista}
+            artistaSelecionado={artista}
             token={token}
+            selecionarGeneros={selecionarGeneros}
             selecionarArtista={selecionarArtista}
           />
         );
+      case PAGINA_GENEROS:
+        return <PaginaGeneros generos={generos} token={token} />;
       default:
         return (
           <PaginaInicial
             tokenState={[token, setToken]}
             erroLogin={erroLogin}
             fazerLogin={fazerLogin}
+            selecionarArtista={selecionarArtista}
           />
         );
     }
