@@ -29,6 +29,13 @@ function ListaMusicasArtistas({ musicas = [], artistas, selecionarArtista }) {
               {item.artists[0].name}
             </a>
           </small>
+          <br />
+          {item.preview_url && (
+            <audio controls>
+              <source src={item.preview_url} />
+              Your browser does not support the audio element.
+            </audio>
+          )}
         </td>
       </tr>
     ));
