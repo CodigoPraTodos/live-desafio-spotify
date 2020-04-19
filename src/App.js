@@ -97,14 +97,19 @@ function App() {
           />
         );
       case PAGINA_GENEROS:
-        return <PaginaGeneros generos={generos} token={token} />;
+        return (
+          <PaginaGeneros
+            generos={generos}
+            token={token}
+            selecionarArtista={selecionarArtista}
+          />
+        );
       default:
         return (
           <PaginaInicial
             tokenState={[token, setToken]}
             erroLogin={erroLogin}
             fazerLogin={fazerLogin}
-            selecionarArtista={selecionarArtista}
           />
         );
     }
