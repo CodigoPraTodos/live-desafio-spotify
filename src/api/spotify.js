@@ -1,5 +1,5 @@
-const SEARCH_LIMIT = 20;
 const SPOTIFY_URL_BASE = "https://api.spotify.com/v1";
+export const SEARCH_LIMIT = 20;
 
 async function requestSpotify(token, endpoint) {
   const authorization = `Bearer ${token}`;
@@ -15,8 +15,8 @@ export async function getMe(token) {
   return requestSpotify(token, url);
 }
 
-export async function getSearch(token, termoDePesquisa) {
-  const url = `/search?q=${termoDePesquisa}&type=track,artist&limit=${SEARCH_LIMIT}`;
+export async function getSearch(token, termoDePesquisa, offset = 0) {
+  const url = `/search?q=${termoDePesquisa}&type=track,artist&limit=${SEARCH_LIMIT}&offset=${offset}`;
   return requestSpotify(token, url);
 }
 

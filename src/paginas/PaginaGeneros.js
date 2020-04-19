@@ -21,12 +21,9 @@ function PaginaGeneros({ generos, token, selecionarArtista }) {
 
   React.useEffect(
     function () {
-      console.info("ver itens exibidos", itensExibidos);
       if (itensExibidos === 0 && musicas.length) {
-        console.info("carregando itens exibidos", itensExibidos);
         const itensAExibir =
           musicas.length > TAMANHO_PAGINA ? TAMANHO_PAGINA : musicas.length;
-        console.info("itens a exibir", itensAExibir);
         setItensExibidos(itensAExibir);
       }
     },
@@ -53,7 +50,6 @@ function PaginaGeneros({ generos, token, selecionarArtista }) {
     const restante = musicas.length - itensExibidos;
     const novosItens = restante > TAMANHO_PAGINA ? TAMANHO_PAGINA : restante;
     const itensAExibir = itensExibidos + novosItens;
-    console.info("itens a exibir", itensAExibir);
     setItensExibidos(itensAExibir);
   }
 
