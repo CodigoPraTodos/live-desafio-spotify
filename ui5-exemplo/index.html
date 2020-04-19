@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Quickstart</title>
+    <script
+      id="sap-ui-bootstrap"
+      src="https://openui5.hana.ondemand.com/resources/sap-ui-core.js"
+      data-sap-ui-theme="sap_belize"
+      data-sap-ui-libs="sap.m, sap.ui.layout, sap.tnt"
+      data-sap-ui-resourceroots='{"Quickstart": "./"}'
+      data-sap-ui-async="true"
+    ></script>
+    <script>
+      sap.ui.getCore().attachInit(function () {
+        sap.ui.require(["sap/ui/core/mvc/XMLView"], async function (XMLView) {
+          const oView = await XMLView.create({ viewName: "Quickstart.App" });
+          oView.placeAt("content");
+        });
+      });
+    </script>
+  </head>
+  <body class="sapUiBody" id="content"></body>
+</html>
